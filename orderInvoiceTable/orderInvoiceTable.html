@@ -1,0 +1,105 @@
+<!--
+  @description       :
+  @author            : Shahrukh Ahmed
+  @last modified on  : 22-08-2024
+  @last modified by  : Shahrukh Ahmed 
+-->
+<template>
+  <template lwc:if={isToastMessage}>
+    <c-avonni-alert icon-name={toastMessageMap.iconName} variant={toastMessageMap.variant}>
+      <p class="slds-m-bottom_none">{toastMessageMap.message}</p>
+    </c-avonni-alert>
+  </template>
+  <template lwc:if={invoiceData.length}>
+    <table role="grid" tabindex="0" class="slds-table slds-table_bordered table-border slds-no-row-hover">
+      <thead>
+        <tr class="slds-line-height_reset">
+          <template for:each={invoiceDetailColumns} for:item="invoiceDetailColumn">
+            <th scope="col" class={invoiceDetailColumn.columnClass} key={invoiceDetailColumn.columnName}>
+              <div class="slds-p-top_xx-small slds-p-bottom_xx-small">
+                <span title={invoiceDetailColumn.columnName} class="slds-truncate column-header"
+                  >{invoiceDetailColumn.columnName}</span
+                >
+              </div>
+            </th>
+          </template>
+        </tr>
+      </thead>
+      <tbody>
+        <template for:each={invoiceData} for:item="invoice">
+          <tr key={invoice.id}>
+            <template for:each={invoice.colsvalue} for:item="item">
+              <td key={item} class="slds-truncate table-cell-value">{item}</td>
+            </template>
+            <!--  <td class="slds-truncate table-cell-value">{invoice.id}</td>
+            <td class="slds-truncate table-cell-value">${invoice.net_value}</td>
+            <td class="slds-truncate table-cell-value">{invoice.billing_date}</td> -->
+            <td class="slds-truncate table-cell-value">
+              <div class="slds-p-around_medium lgc-bg">
+                <lightning-button-icon
+                  variant="border-filled"
+                  icon-name={invoice.iconName}
+                  size="large"
+                  title="Expand"
+                  data-id={invoice.id}
+                  onclick={handleLineItemVisibility}
+                ></lightning-button-icon>
+
+                <lightning-button-icon
+                  class="slds-m-left_xx-small"
+                  variant="border-filled"
+                  icon-name="utility:add"
+                  size="large"
+                  title="Add Invoice/Order"
+                  data-id={invoice.id}
+                  onclick={handleNumber}
+                ></lightning-button-icon>
+              </div>
+            </td>
+          </tr>
+          <template lwc:if={invoice.showLineItems}>
+            <tr key={invoice.id}>
+              <td colspan="100%">
+                <template lwc:if={isLineToastMessage}>
+                  <c-avonni-alert icon-name={lineToastMessageMap.iconName} variant={lineToastMessageMap.variant}>
+                    <p class="slds-m-bottom_none">{lineToastMessageMap.message}</p>
+                  </c-avonni-alert>
+                </template>
+                <c-custom-data-table
+                  data-id={invoice.id}
+                  key-field="key"
+                  data={invoice.displayedLineItems}
+                  columns={lineItemColumns}
+                  oncellchange={handleCellChange}
+                  onrowaction={handleRowAction}
+                  draft-values={saveDraftValues}
+                  default-sort-direction={defaultSortDirection}
+                  sorted-direction={sortDirection}
+                  sorted-by={sortedBy}
+                  onsort={onHandleSort}
+                  onrecordpicker={handleRecordPicker}
+                  hide-checkbox-column
+                  suppress-bottom-bar
+                  resize-column-disabled
+                  column-widths-mode="auto"
+                >
+                </c-custom-data-table>
+                <div class="slds-p-vertical_x-large">
+                  <c-avonni-pagination
+                    data-id={invoice.id}
+                    align="center"
+                    value={invoice.currentPage}
+                    per-page={invoice.pageSize}
+                    total-rows={invoice.lineItems.length}
+                    onchange={handlePageChange}
+                  >
+                  </c-avonni-pagination>
+                </div>
+              </td>
+            </tr>
+          </template>
+        </template>
+      </tbody>
+    </table>
+  </template>
+</template>

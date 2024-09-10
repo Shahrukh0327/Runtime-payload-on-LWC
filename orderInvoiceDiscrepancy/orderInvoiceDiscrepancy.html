@@ -1,0 +1,121 @@
+<!--
+  @description       : 
+  @author            : Shahrukh Ahmed 
+  @last modified on  : 13-08-2024
+  @last modified by  : Shahrukh Ahmed 
+-->
+<template>
+  <template lwc:if={showSpinner}>
+    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+  </template>
+  <div class="slds-text-heading_medium slds-var-m-bottom_small">{title}</div>
+
+  <!--Invoice Number Input-->
+  <!-- Type -->
+
+  <lightning-layout>
+    <lightning-layout-item class="slds-var-m-right_small">
+      <lightning-combobox
+        name="Invoice/Order"
+        label="Type"
+        value={type}
+        placeholder="Select Invoice/Order"
+        options={options}
+        onchange={handleChange}
+      ></lightning-combobox>
+    </lightning-layout-item>
+  </lightning-layout>
+
+  <template lwc:if={type}>
+    <!-- Invoice/Order Number -->
+    <div class="slds-text-body_regular slds-var-m-top_medium">
+      <span class="slds-show_inline-block slds-var-p-top_xx-small slds-var-m-right_xx-small"></span>
+    </div>
+    <lightning-layout>
+      <lightning-layout-item class="slds-var-m-right_small">
+        <lightning-input
+          label={searchNumberFieldLabel}
+          value={invoiceNumber}
+          onchange={handleInvoiceNumberChange}
+        ></lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item class="slds-var-p-top_large">
+        <lightning-button-icon
+          variant="brand"
+          icon-name="utility:search"
+          alternative-text="Search"
+          title="Search"
+          disabled={isNumberSearchDisabled}
+          onclick={handleNumberSearch}
+        >
+        </lightning-button-icon>
+      </lightning-layout-item>
+    </lightning-layout>
+
+    <!--Date Selection-->
+    <div class="slds-text-body_regular slds-var-m-top_medium">
+      <span class="slds-show_inline-block slds-var-p-top_xx-small slds-var-m-right_xx-small"
+        >{searchDateFieldLabel}</span
+      >
+      <lightning-helptext
+        content="Select date range (max. 3 months) for when invoice was received."
+      ></lightning-helptext>
+    </div>
+    <lightning-layout>
+      <lightning-layout-item class="slds-var-m-right_small">
+        <lightning-input
+          type="date"
+          name="start-date"
+          label="From date"
+          value={selectedStartDate}
+          min={minStartDate}
+          max={maxDate}
+          class="date-input"
+          onchange={handleStartDateChange}
+        >
+        </lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item class="slds-var-m-right_small">
+        <lightning-input
+          type="date"
+          name="end-date"
+          label="To date"
+          value={selectedEndDate}
+          min={minEndDate}
+          max={maxDate}
+          class="date-input"
+          onchange={handleEndDateChange}
+        ></lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item class="slds-var-p-top_large">
+        <lightning-button-icon
+          variant="brand"
+          icon-name="utility:search"
+          alternative-text="Search"
+          title="Search"
+          disabled={isDateSearchDisabled}
+          onclick={handleDateSearch}
+        >
+        </lightning-button-icon>
+      </lightning-layout-item>
+    </lightning-layout>
+  </template>
+
+  <div class="slds-var-m-top_medium">
+    <c-order-invoice-table
+      table-name={tableName}
+      type={type}
+      invoice-detail-columns={invoiceDetailColumns}
+      line-item-columns={lineItemColumns}
+      line-item-columns-set={lineItemColumnsSet}
+      line-item-column-map={lineItemColumnMap}
+      product-list={productList}
+    ></c-order-invoice-table>
+  </div>
+
+  <template lwc:if={isError}>
+    <c-avonni-alert icon-name={errorMap.iconName} variant={errorMap.variant}>
+      <p class="slds-m-bottom_none">{errorMap.message}</p>
+    </c-avonni-alert>
+  </template>
+</template>

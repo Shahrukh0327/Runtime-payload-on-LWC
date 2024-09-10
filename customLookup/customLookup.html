@@ -1,0 +1,21 @@
+<!--
+  @description       : 
+  @author            : Shahrukh Ahmed 
+  @last modified on  : 30-08-2024
+  @last modified by  : Shahrukh Ahmed 
+-->
+<template>
+  <lightning-record-picker
+    variant="label-hidden"
+    label="Select a record"
+    placeholder="Search..."
+    object-api-name={objectApi}
+    value={value}
+    onchange={handleChange}
+    disabled={editable}
+    matching-info={matchingInfo}
+    display-info={displayInfo}
+    filter={filter}
+  >
+  </lightning-record-picker>
+</template>
