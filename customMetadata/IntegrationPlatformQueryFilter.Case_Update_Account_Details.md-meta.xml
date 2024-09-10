@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Case Update Account Details</label>
+    <protected>false</protected>
+    <values>
+        <field>QueryFields__c</field>
+        <value xsi:type="xsd:string">Id,RecordType.Name,Type,DateSetupRequiredBy__c,Subject,BusinessUnit__c,Account.ALBSAPID__c,Account.Name,ContactName__c,AlternateContactName__c,ContactPhoneNumber__c,AlternatePhone__c, ContactEmailAddress__c,Address__Street__s,Address__City__s,Address__StateCode__s,Address__PostalCode__s,Address__Longitude__s,Address__Latitude__s,CustomerComments__c,Status,SnowCaseNumber__c, SnowSystemId__c</value>
+    </values>
+    <values>
+        <field>RecordTypeId__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>RecordTypeName__c</field>
+        <value xsi:type="xsd:string">Account_Management</value>
+    </values>
+    <values>
+        <field>SObjectName__c</field>
+        <value xsi:type="xsd:string">Case</value>
+    </values>
+    <values>
+        <field>TypeName__c</field>
+        <value xsi:type="xsd:string">Update Account Details</value>
+    </values>
+</CustomMetadata>
